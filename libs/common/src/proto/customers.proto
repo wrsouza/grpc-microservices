@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package customers;
+
+service CustomerService {
+    rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse) {}
+    rpc CustomerDetails(CustomerDetailsRequest) returns (CustomerDetailsResponse) {}
+}
+
+message CreateCustomerRequest {
+    string name = 1;
+    string documentNumber = 2;
+    CreateAddressRequest address = 3;
+}
+
+message CreateAddressRequest {
+    string postalCode = 1;
+    string lineAddress = 2;
+    string city = 3;
+    string state = 4;
+}
+
+message CreateCustomerResponse {
+    string id = 1;
+}
+
+message CustomerDetailsRequest {
+    string id = 1;
+}
+
+message CustomerDetailsResponse {
+    string id = 1;
+    string name = 2;
+    string documentNumber = 3;
+    AddressCustomerDetailsResponse address = 4;
+}
+
+message AddressCustomerDetailsResponse {
+    string postalCode = 1;
+    string lineAddress = 2;
+    string city = 3;
+    string state = 4;
+}
+
+message BadRequestResponse {
+    int32 statusCode = 1;
+    string message = 2;
+    string error = 3;
+}
