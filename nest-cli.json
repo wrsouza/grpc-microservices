@@ -43,7 +43,7 @@
       "sourceRoot": "libs/common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json",
-        "assets": ["libs/common/src/**/*.proto"],
+        "assets": ["**/*.proto"],
         "watchAssets": true
       }
     }
