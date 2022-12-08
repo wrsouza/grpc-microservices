@@ -13,7 +13,9 @@ message CreateCategoryRequest {
 }
 
 message CreateCategoryResponse {
-    string id = 1;
+    int32 status = 1;
+    repeated string error = 2;
+    string id = 3;
 }
 
 message CategoryDetailsRequest {
@@ -21,14 +23,10 @@ message CategoryDetailsRequest {
 }
 
 message CategoryDetailsResponse {
-    string id = 1;
-    string name = 2;
-    string slug = 3;
-    string createdAt = 4;
-}
-
-message BadRequestResponse {
-    int32 statusCode = 1;
-    string message = 2;
-    string error = 3;
+    int32 status = 1;
+    repeated string error = 2;
+    string id = 3;
+    string name = 4;
+    string slug = 5;
+    string createdAt = 6;
 }

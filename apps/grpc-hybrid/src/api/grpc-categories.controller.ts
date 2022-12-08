@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseFilters } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GrpcMethod } from '@nestjs/microservices';
 import {
@@ -11,6 +11,7 @@ import {
   CategoryDetailsRequest,
   CategoryDetailsResponse,
 } from '../contexts/products/application/queries';
+import { HttpExceptionFilter } from '@app/common/exceptions/http-exception.filter';
 
 @Controller()
 export class GrpcCategoriesController {
@@ -20,6 +21,7 @@ export class GrpcCategoriesController {
   ) {}
 
   @GrpcMethod('CategoryService')
+  @UseFilters(new HttpExceptionFilter())
   async createCategory(
     createCategoryRequest: CreateCategoryRequest,
   ): Promise<CreateCategoryResponse> {
@@ -29,6 +31,7 @@ export class GrpcCategoriesController {
   }
 
   @GrpcMethod('CategoryService')
+  @UseFilters(new HttpExceptionFilter())
   async categoryDetails(
     categoryDetailsRequest: CategoryDetailsRequest,
   ): Promise<CategoryDetailsResponse> {

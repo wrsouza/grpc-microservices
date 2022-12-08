@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -8,6 +7,7 @@ import {
   OnModuleInit,
   Param,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
@@ -18,15 +18,16 @@ import {
   CreateCategoryRequest,
   CreateCategoryResponse,
 } from './dto';
+import { GrpcInterceptor } from '../../data/interceptors/grpc.interceptor';
 
 interface CategoryService {
   createCategory(
     data: CreateCategoryRequest,
-  ): Observable<CreateCategoryResponse | BadRequestException>;
+  ): Observable<CreateCategoryResponse>;
 
   categoryDetails(
     data: CategoryDetailsRequest,
-  ): Observable<CategoryDetailsResponse | BadRequestException>;
+  ): Observable<CategoryDetailsResponse>;
 }
 
 @ApiTags('Categories')
@@ -44,17 +45,19 @@ export class CategoriesController implements OnModuleInit {
   }
 
   @Post()
+  @UseInterceptors(new GrpcInterceptor())
   createCategory(
     @Body() createCategoryRequest: CreateCategoryRequest,
-  ): Observable<CreateCategoryResponse | BadRequestException> {
+  ): Observable<CreateCategoryResponse> {
     Logger.log(`POST createCategory: ${JSON.stringify(createCategoryRequest)}`);
     return this.categoryService.createCategory(createCategoryRequest);
   }
 
   @Get(':id')
+  @UseInterceptors(new GrpcInterceptor())
   categoryDetails(
     @Param() categoryDetailsRequest: CategoryDetailsRequest,
-  ): Observable<CategoryDetailsResponse | BadRequestException> {
+  ): Observable<CategoryDetailsResponse> {
     Logger.log(
       `GET categoryDetails: ${JSON.stringify(categoryDetailsRequest)}`,
     );
